@@ -17,17 +17,16 @@ usd_bid=$(grep -oP '"symbol":"AU".*?"bid":\K[0-9.]+' raw.html | head -1)
 usd_high=$(grep -oP '"symbol":"AU".*?"high":\K[0-9.]+' raw.html | head -1)
 usd_low=$(grep -oP '"symbol":"AU".*?"low":\K[0-9.]+' raw.html | head -1)
 
-# Force to 2 decimal places
-ask_fmt=$(printf "%.2f" "$ask")
-bid_fmt=$(printf "%.2f" "$bid")
+usd_ask_fmt=$(printf "%.2f" "$usd_ask")
+usd_bid_fmt=$(printf "%.2f" "$usd_bid")
+usd_high_fmt=$(printf "%.2f" "$usd_high")
+usd_low_fmt=$(printf "%.2f" "$usd_low")
 
 currency=$(grep -oP '"currency":"\K[A-Z]+' raw.html | head -1)
-
-timestamp_raw=$(grep -oP '"timestamp":\K[0-9]+' raw.html | head -1)
-timestamp=$(date -d "@$timestamp_raw" "+%Y-%m-%d %H:%M:%S")
+current_time=$(date '+%Y-%m-%d %H:%M:%S')
 
 echo "Currency:   $currency"
-echo "Timestamp:  $timestamp"
+echo "Timestamp:  $current_time"
 echo "-----------------------------------------"
 echo "Bid Price:  $bid_fmt"
 echo "Ask Price:  $ask_fmt"
