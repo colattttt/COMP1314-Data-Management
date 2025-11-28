@@ -9,10 +9,13 @@ echo "Last Updated: $nyt_time"
 echo "========================================="
 echo
 
-# Ask & Bid from the main section
-ask=$(grep -oP '"symbol":"AU".*?"ask":\K[0-9.]+' raw.html | head -1)
-bid=$(grep -oP '"symbol":"AU".*?"bid":\K[0-9.]+' raw.html | head -1)
+# USD SECTION
+echo "================== USD =================="
 
+usd_ask=$(grep -oP '"symbol":"AU".*?"ask":\K[0-9.]+' raw.html | head -1)
+usd_bid=$(grep -oP '"symbol":"AU".*?"bid":\K[0-9.]+' raw.html | head -1)
+usd_high=$(grep -oP '"symbol":"AU".*?"high":\K[0-9.]+' raw.html | head -1)
+usd_low=$(grep -oP '"symbol":"AU".*?"low":\K[0-9.]+' raw.html | head -1)
 
 # Force to 2 decimal places
 ask_fmt=$(printf "%.2f" "$ask")
