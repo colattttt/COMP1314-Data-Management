@@ -68,7 +68,25 @@ extract_usdtoc() {
 currencies=(AUD CAD JPY)
 
 for cur in "${currencies[@]}"; do
+    echo "================== $cur =================="
 
+    rate=$(extract_usdtoc "$cur")
+
+    if [[ -z "$rate" ]]; then
+        echo "$cur data unavailable."
+        echo "========================================="
+        echo
+        continue
+    fi
+
+    ask=$(awk "BEGIN {printf \"%.2f\", $usd_ask / $rate}")
+    bid=$(awk "BEGIN {printf \"%.2f\", $usd_bid / $rate}")
+    high=$(awk "BEGIN {printf \"%.2f\", $usd_high / $rate}")
+    low=$(awk "BEGIN {printf \"%.2f\", $usd_low / $rate}")
+    change=$(awk "BEGIN {printf \"%+.2f\", $usd_change / $rate}")
+    change_pct=$(printf "%+.2f%%" "$usd_chg_pct")
+
+    current_time=$(date '+%Y-%m-%d %H:%M:%S')
 done
 
 # Print them nicely
