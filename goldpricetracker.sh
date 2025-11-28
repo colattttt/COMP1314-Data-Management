@@ -1,13 +1,13 @@
 #!/bin/bash
 
-curl -s -H "User-Agent: Mozilla/5.0" https://www.kitco.com/charts/gold > raw.html
+# Fetch HTML
+curl -sS https://www.kitco.com/charts/gold > raw.html
 
 echo "============ LIVE GOLD PRICE ============"
-
-nyt_raw=$(grep -oP '[A-Z][a-z]{2} \d{1,2}, \d{4} – \d{2}:\d{2} NY Time' raw.html | head -1)
-
-echo "Last Updated:  $nyt_raw"
-echo "-----------------------------------------"
+nyt_time=$(TZ="America/New_York" date '+%b %d, %Y - %H:%M NY Time')
+echo "Last Updated: $nyt_time"
+echo "========================================="
+echo
 
 # Ask & Bid from the main section
 ask=$(grep -oP '"symbol":"AU".*?"ask":\K[0-9.]+' raw.html | head -1)
