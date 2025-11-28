@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Progress Bar
+echo -n "Fetching live data "
+for i in {1..20}; do
+    echo -n "▮"
+    sleep 0.05
+done
+echo -e "  Done ✓"
+echo
+
 # Fetch HTML
 curl -sS https://www.kitco.com/charts/gold > raw.html
 
@@ -50,11 +59,17 @@ done
 echo "========================================="
 echo
 
-# Extract unit names (ounce, gram, kilo…)
-units=($(grep -oP '(?<=capitalize">)[A-Za-z]+' raw.html | tr 'A-Z' 'a-z'))
+# Extract USD → Currency Rates
 
-# Extract unit prices (4,133.60 etc.)
-prices=($(grep -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' raw.html))
+extract_usdtoc() {
+    grep -oP "\"$1\".*?usdtoc\":\K[0-9.]+" raw.html | head -1
+}
+
+currencies=(AUD CAD JPY)
+
+for cur in "${currencies[@]}"; do
+
+done
 
 # Print them nicely
 for i in "${!units[@]}"; do
