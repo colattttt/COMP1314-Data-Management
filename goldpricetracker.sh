@@ -12,3 +12,11 @@ echo
 # Fetch HTML
 curl -sS https://www.kitco.com/charts/gold > raw.html
 
+echo "============ LIVE GOLD PRICE ============"
+nyt_time=$(TZ="America/New_York" date '+%b %d, %Y - %H:%M NY Time')
+echo "Last Updated: $nyt_time"
+echo "========================================="
+echo
+
+# USD SECTION
+echo "================== USD =================="
