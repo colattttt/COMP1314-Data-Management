@@ -20,3 +20,10 @@ echo
 
 # USD SECTION
 echo "================== USD =================="
+
+usd_ask=$(grep -oP '"symbol":"AU".*?"ask":\K[0-9.]+' raw.html | head -1)
+usd_bid=$(grep -oP '"symbol":"AU".*?"bid":\K[0-9.]+' raw.html | head -1)
+usd_high=$(grep -oP '"symbol":"AU".*?"high":\K[0-9.]+' raw.html | head -1)
+usd_low=$(grep -oP '"symbol":"AU".*?"low":\K[0-9.]+' raw.html | head -1)
+usd_change=$(grep -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' raw.html | head -1)
+usd_chg_pct=$(grep -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' raw.html | head -1)
