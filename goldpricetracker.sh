@@ -37,3 +37,13 @@ usd_chg_pct_fmt=$(printf "%+.2f%%" "$usd_chg_pct")
 
 currency=$(grep -oP '"currency":"\K[A-Z]+' raw.html | head -1)
 current_time=$(date '+%Y-%m-%d %H:%M:%S')
+
+echo "Currency           : $currency"
+echo "Local Timestamp    : $current_time"
+echo "Ask Price          : $usd_ask_fmt"
+echo "Bid Price          : $usd_bid_fmt"
+echo "Day High           : $usd_high_fmt"
+echo "Day Low            : $usd_low_fmt"
+echo "Change             : $usd_change_fmt"
+echo "Change Percentage  : $usd_chg_pct_fmt"
+echo "-----------------------------------------"
