@@ -128,4 +128,30 @@ for cur in "${currencies[@]}"; do
     converted_val=$(awk "BEGIN {printf \"%.2f\", $usd_val / $rate}")
     printf "%d. %-12s: %s\n" "$count" "${units[$i]^}" "$converted_val"
     ((count++))
+    done
+    echo "========================================="
+    echo
+
+    converted_ounce=$(awk "BEGIN {printf \"%.2f\", $usd_ounce / $rate}")
+    converted_gram=$(awk "BEGIN {printf \"%.2f\", $usd_gram / $rate}")
+    converted_kilo=$(awk "BEGIN {printf \"%.2f\", $usd_kilo / $rate}")
+    converted_penny=$(awk "BEGIN {printf \"%.2f\", $usd_penny / $rate}")
+    converted_tola=$(awk "BEGIN {printf \"%.2f\", $usd_tola / $rate}")
+    converted_tael=$(awk "BEGIN {printf \"%.2f\", $usd_tael / $rate}")
+
+        mysql -u root -p1234 gold_tracker <<EOF
+INSERT INTO gold_prices (
+    currency, ask, bid, high, low,
+    change_value, change_percent,
+    timestamp_local, timestamp_ny,
+    ounce, gram, kilo, pennyweight, tola, tael
+) VALUES (
+    "$cur",
+    "$ask", "$bid", "$high", "$low",
+    "$change", "$change_pct",
+    "$current_time", "$nyt_time",
+    "$converted_ounce", "$converted_gram", "$converted_kilo",
+    "$converted_penny", "$converted_tola", "$converted_tael"
+);
+EOF
 done
