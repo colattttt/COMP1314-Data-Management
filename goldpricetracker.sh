@@ -110,4 +110,22 @@ for cur in "${currencies[@]}"; do
     change_pct=$(printf "%+.2f%%" "$usd_chg_pct")
 
     current_time=$(date '+%Y-%m-%d %H:%M:%S')
+
+    echo "Currency           : $cur"
+    echo "Local Timestamp    : $current_time"
+    echo "Ask Price          : $ask"
+    echo "Bid Price          : $bid"
+    echo "Day High           : $high"
+    echo "Day Low            : $low"
+    echo "Change             : $change"
+    echo "Change Percentage  : $change_pct"
+    echo "Converted From     : USD → $cur"
+    echo "-----------------------------------------"
+    echo "Price by Weight Unit ($cur):"
+    count=1
+    for i in "${!units[@]}"; do
+    usd_val="${prices[$i]//,/}"     # remove commas
+    converted_val=$(awk "BEGIN {printf \"%.2f\", $usd_val / $rate}")
+    printf "%d. %-12s: %s\n" "$count" "${units[$i]^}" "$converted_val"
+    ((count++))
 done
