@@ -47,3 +47,38 @@ echo "Day Low            : $usd_low_fmt"
 echo "Change             : $usd_change_fmt"
 echo "Change Percentage  : $usd_chg_pct_fmt"
 echo "-----------------------------------------"
+
+echo "Price by Weight Unit:"
+units=($(grep -oP '(?<=capitalize">)[A-Za-z]+' raw.html))
+prices=($(grep -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' raw.html))
+
+count=1
+for i in "${!units[@]}"; do
+    printf "%d. %-12s: %s\n" "$count" "${units[$i]^}" "${prices[$i]}"
+    ((count++))
+done
+echo "========================================="
+echo
+
+usd_ounce="${prices[0]//,/}"
+usd_gram="${prices[1]//,/}"
+usd_kilo="${prices[2]//,/}"
+usd_penny="${prices[3]//,/}"
+usd_tola="${prices[4]//,/}"
+usd_tael="${prices[5]//,/}"
+
+mysql -u root -p1234 gold_tracker <<EOF
+INSERT INTO gold_prices (
+    currency, ask, bid, high, low,
+    change_value, change_percent,
+    timestamp_local, timestamp_ny,
+    ounce, gram, kilo, pennyweight, tola, tael
+) VALUES (
+    "USD",
+    "$usd_ask_fmt", "$usd_bid_fmt", "$usd_high_fmt", "$usd_low_fmt",
+    "$usd_change_fmt", "$usd_chg_pct_fmt",
+    "$current_time", "$nyt_time",
+    "$usd_ounce", "$usd_gram", "$usd_kilo",
+    "$usd_penny", "$usd_tola", "$usd_tael"
+);
+EOF
