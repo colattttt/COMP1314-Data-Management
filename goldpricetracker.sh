@@ -91,5 +91,14 @@ extract_usdtoc() {
 currencies=(AUD CAD JPY)
 
 for cur in "${currencies[@]}"; do
+    echo "================== $cur =================="
+    
+    rate=$(extract_usdtoc "$cur")
 
+    if [[ -z "$rate" ]]; then
+        echo "$cur data unavailable."
+        echo "========================================="
+        echo
+        continue
+    fi
 done
