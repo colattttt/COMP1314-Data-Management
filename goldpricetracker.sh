@@ -82,3 +82,14 @@ INSERT INTO gold_prices (
     "$usd_penny", "$usd_tola", "$usd_tael"
 );
 EOF
+
+# Extract USD → Currency Rates
+extract_usdtoc() {
+    grep -oP "\"$1\".*?usdtoc\":\K[0-9.]+" raw.html | head -1
+}
+
+currencies=(AUD CAD JPY)
+
+for cur in "${currencies[@]}"; do
+
+done
