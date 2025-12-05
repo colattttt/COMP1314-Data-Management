@@ -155,3 +155,24 @@ INSERT INTO gold_prices (
 );
 EOF
 done
+
+REPO="/mnt/c/Users/pohsh/GitHub/COMP1314-Data-Management"
+TARGET="$REPO/raw.html"
+
+echo "Updating to GitHub repository..."
+
+# Copy raw.html into your Git repo
+cp raw.html "$TARGET"
+
+# Go to repo
+cd "$REPO"
+
+# Add & commit
+git add raw.html
+git commit -m "Updated raw.html at $(date '+%Y-%m-%d %H:%M:%S')" >/dev/null 2>&1
+
+# Push to GitHub
+git push >/dev/null 2>&1
+
+echo "GitHub update completed"
+echo
