@@ -28,20 +28,15 @@ $CURL -sS https://www.kitco.com/charts/gold > "$RAW"
 nyt_time=$(TZ="America/New_York" $DATE '+%b %d, %Y - %H:%M NY Time')
 current_time=$($DATE '+%Y-%m-%d %H:%M:%S')
 
-echo "============ LIVE GOLD PRICE ============"
-echo "Last Updated: $nyt_time"
-echo "========================================="
-echo
-
 # USD SECTION
 echo "================== USD =================="
 
-usd_ask=$(grep -oP '"symbol":"AU".*?"ask":\K[0-9.]+' raw.html | head -1)
-usd_bid=$(grep -oP '"symbol":"AU".*?"bid":\K[0-9.]+' raw.html | head -1)
-usd_high=$(grep -oP '"symbol":"AU".*?"high":\K[0-9.]+' raw.html | head -1)
-usd_low=$(grep -oP '"symbol":"AU".*?"low":\K[0-9.]+' raw.html | head -1)
-usd_change=$(grep -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' raw.html | head -1)
-usd_chg_pct=$(grep -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' raw.html | head -1)
+usd_ask=$($GREP -oP '"symbol":"AU".*?"ask":\K[0-9.]+' "$RAW" | $HEAD -1)
+usd_bid=$($GREP -oP '"symbol":"AU".*?"bid":\K[0-9.]+' "$RAW" | $HEAD -1)
+usd_high=$($GREP -oP '"symbol":"AU".*?"high":\K[0-9.]+' "$RAW" | $HEAD -1)
+usd_low=$($GREP -oP '"symbol":"AU".*?"low":\K[0-9.]+' "$RAW" | $HEAD -1)
+usd_change=$($GREP -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' "$RAW" | $HEAD -1)
+usd_chg_pct=$($GREP -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' "$RAW" | $HEAD -1)
 
 usd_ask_fmt=$(printf "%.2f" "$usd_ask")
 usd_bid_fmt=$(printf "%.2f" "$usd_bid")
@@ -50,8 +45,15 @@ usd_low_fmt=$(printf "%.2f" "$usd_low")
 usd_change_fmt=$(printf "%+.2f" "$usd_change")
 usd_chg_pct_fmt=$(printf "%+.2f%%" "$usd_chg_pct")
 
-currency=$(grep -oP '"currency":"\K[A-Z]+' raw.html | head -1)
-current_time=$(date '+%Y-%m-%d %H:%M:%S')
+units=($($GREP -oP '(?<=capitalize">)[A-Za-z]+' "$RAW"))
+prices=($($GREP -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' "$RAW"))
+
+usd_ounce="${prices[0]//,/}"
+usd_gram="${prices[1]//,/}"
+usd_kilo="${prices[2]//,/}"
+usd_penny="${prices[3]//,/}"
+usd_tola="${prices[4]//,/}"
+usd_tael="${prices[5]//,/}"
 
 echo "Currency           : $currency"
 echo "Local Timestamp    : $current_time"
@@ -64,8 +66,6 @@ echo "Change Percentage  : $usd_chg_pct_fmt"
 echo "-----------------------------------------"
 
 echo "Price by Weight Unit:"
-units=($(grep -oP '(?<=capitalize">)[A-Za-z]+' raw.html))
-prices=($(grep -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' raw.html))
 
 count=1
 for i in "${!units[@]}"; do
@@ -74,13 +74,6 @@ for i in "${!units[@]}"; do
 done
 echo "========================================="
 echo
-
-usd_ounce="${prices[0]//,/}"
-usd_gram="${prices[1]//,/}"
-usd_kilo="${prices[2]//,/}"
-usd_penny="${prices[3]//,/}"
-usd_tola="${prices[4]//,/}"
-usd_tael="${prices[5]//,/}"
 
 mysql -u root -p1234 gold_tracker <<EOF
 INSERT INTO gold_prices (
