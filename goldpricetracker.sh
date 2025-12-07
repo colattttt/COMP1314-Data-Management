@@ -1,5 +1,18 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
+
+CURL=/usr/bin/curl
+GREP=/usr/bin/grep
+AWK=/usr/bin/awk
+MYSQL=/usr/bin/mysql
+DATE=/usr/bin/date
+SLEEP=/bin/sleep
+HEAD=/usr/bin/head
+
+RAW="./raw.html"
+LOG="./gold.log"
+
 # Progress Bar
 echo -n "Fetching live data "
 for i in {1..20}; do
@@ -10,10 +23,12 @@ echo -e "  Done ✓"
 echo
 
 # Fetch HTML
-curl -sS https://www.kitco.com/charts/gold > raw.html
+$CURL -sS https://www.kitco.com/charts/gold > "$RAW"
+
+nyt_time=$(TZ="America/New_York" $DATE '+%b %d, %Y - %H:%M NY Time')
+current_time=$($DATE '+%Y-%m-%d %H:%M:%S')
 
 echo "============ LIVE GOLD PRICE ============"
-nyt_time=$(TZ="America/New_York" date '+%b %d, %Y - %H:%M NY Time')
 echo "Last Updated: $nyt_time"
 echo "========================================="
 echo
