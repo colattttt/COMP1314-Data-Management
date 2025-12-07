@@ -139,7 +139,7 @@ for cur in "${currencies[@]}"; do
     converted_tola=$(awk "BEGIN {printf \"%.2f\", $usd_tola / $rate}")
     converted_tael=$(awk "BEGIN {printf \"%.2f\", $usd_tael / $rate}")
 
-        mysql -u root -p1234 gold_tracker <<EOF
+mysql -u root -p1234 gold_tracker <<EOF
 INSERT INTO gold_prices (
     currency, ask, bid, high, low,
     change_value, change_percent,
