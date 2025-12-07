@@ -37,6 +37,7 @@ usd_high=$($GREP -oP '"symbol":"AU".*?"high":\K[0-9.]+' "$RAW" | $HEAD -1)
 usd_low=$($GREP -oP '"symbol":"AU".*?"low":\K[0-9.]+' "$RAW" | $HEAD -1)
 usd_change=$($GREP -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' "$RAW" | $HEAD -1)
 usd_chg_pct=$($GREP -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' "$RAW" | $HEAD -1)
+currency=$($GREP -oP '"currency":"\K[A-Z]+' "$RAW" | $HEAD -1)
 
 usd_ask_fmt=$(printf "%.2f" "$usd_ask")
 usd_bid_fmt=$(printf "%.2f" "$usd_bid")
@@ -55,6 +56,11 @@ usd_penny="${prices[3]//,/}"
 usd_tola="${prices[4]//,/}"
 usd_tael="${prices[5]//,/}"
 
+echo "============ LIVE GOLD PRICE ============"
+echo "Last Updated: $nyt_time"
+echo "========================================="
+echo
+echo "================== USD =================="
 echo "Currency           : $currency"
 echo "Local Timestamp    : $current_time"
 echo "Ask Price          : $usd_ask_fmt"
@@ -64,31 +70,45 @@ echo "Day Low            : $usd_low_fmt"
 echo "Change             : $usd_change_fmt"
 echo "Change Percentage  : $usd_chg_pct_fmt"
 echo "-----------------------------------------"
-
+echo
 echo "Price by Weight Unit:"
-
-count=1
-for i in "${!units[@]}"; do
-    printf "%d. %-12s: %s\n" "$count" "${units[$i]^}" "${prices[$i]}"
-    ((count++))
-done
+echo "1. Ounce           : $usd_ounce"
+echo "2. Gram            : $usd_gram"
+echo "3. Kilo            : $usd_kilo"
+echo "4. Pennyweight     : $usd_penny"
+echo "5. Tola            : $usd_tola"
+echo "6. Tael            : $usd_tael"
 echo "========================================="
 echo
 
-mysql -u root -p1234 gold_tracker <<EOF
+USD_GOLD_ID=$($MYSQL -u root -p1234 -N -B gold_tracker <<EOF
 INSERT INTO gold_prices (
-    currency, ask, bid, high, low,
+    currency_id, ask, bid, high, low,
     change_value, change_percent,
-    timestamp_local, timestamp_ny,
-    ounce, gram, kilo, pennyweight, tola, tael
+    timestamp_local, timestamp_ny
 ) VALUES (
-    "USD",
-    "$usd_ask_fmt", "$usd_bid_fmt", "$usd_high_fmt", "$usd_low_fmt",
-    "$usd_change_fmt", "$usd_chg_pct_fmt",
-    "$current_time", "$nyt_time",
-    "$usd_ounce", "$usd_gram", "$usd_kilo",
-    "$usd_penny", "$usd_tola", "$usd_tael"
+    1,
+    "$usd_ask_fmt",
+    "$usd_bid_fmt",
+    "$usd_high_fmt",
+    "$usd_low_fmt",
+    "$usd_change_fmt",
+    "$usd_chg_pct_fmt",
+    "$current_time",
+    "$nyt_time"
 );
+SELECT LAST_INSERT_ID();
+EOF
+)
+
+$MYSQL -u root -p1234 gold_tracker <<EOF
+INSERT INTO gold_unit_prices (gold_id, unit_id, price) VALUES
+($USD_GOLD_ID, 1, "$usd_ounce"),
+($USD_GOLD_ID, 2, "$usd_gram"),
+($USD_GOLD_ID, 3, "$usd_kilo"),
+($USD_GOLD_ID, 4, "$usd_penny"),
+($USD_GOLD_ID, 5, "$usd_tola"),
+($USD_GOLD_ID, 6, "$usd_tael");
 EOF
 
 # Extract USD → Currency Rates
