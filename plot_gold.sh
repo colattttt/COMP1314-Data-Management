@@ -126,3 +126,21 @@ EOF
 
     echo "Generated $outfile"
 }
+
+# Command handler
+if [ "$1" = "ask" ]; then
+    plot_ask "$2"
+elif [ "$1" = "bid" ]; then
+    plot_bid "$2"
+elif [ "$1" = "high" ]; then
+    plot_high "$2"
+elif [ "$1" = "low" ]; then
+    plot_low "$2"
+else
+    echo "Usage:"
+    echo "  ./plot.sh ask USD"
+    echo "  ./plot.sh bid USD"
+    echo "  ./plot.sh high USD"
+    echo "  ./plot.sh low USD"
+    echo "Example currencies: USD, AUD, CAD, JPY"
+fi

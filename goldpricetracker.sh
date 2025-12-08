@@ -83,7 +83,7 @@ echo
 
 USD_GOLD_ID=$($MYSQL -u root -p1234 -N -B gold_tracker <<EOF
 INSERT INTO gold_prices (
-    currency_id, ask, bid, high, low,
+    currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
     timestamp_local, timestamp_ny
 ) VALUES (
@@ -101,14 +101,15 @@ SELECT LAST_INSERT_ID();
 EOF
 )
 
+usd_currency_id=1   # USD
 $MYSQL -u root -p1234 gold_tracker <<EOF
-INSERT INTO gold_unit_prices (gold_id, unit_id, price) VALUES
-($USD_GOLD_ID, 1, "$usd_ounce"),
-($USD_GOLD_ID, 2, "$usd_gram"),
-($USD_GOLD_ID, 3, "$usd_kilo"),
-($USD_GOLD_ID, 4, "$usd_penny"),
-($USD_GOLD_ID, 5, "$usd_tola"),
-($USD_GOLD_ID, 6, "$usd_tael");
+INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
+($usd_currency_id, $USD_GOLD_ID, 1, "$usd_ounce"),
+($usd_currency_id, $USD_GOLD_ID, 2, "$usd_gram"),
+($usd_currency_id, $USD_GOLD_ID, 3, "$usd_kilo"),
+($usd_currency_id, $USD_GOLD_ID, 4, "$usd_penny"),
+($usd_currency_id, $USD_GOLD_ID, 5, "$usd_tola"),
+($usd_currency_id, $USD_GOLD_ID, 6, "$usd_tael");
 EOF
 
 # USD → OTHER CURRENCIES
@@ -170,7 +171,7 @@ esac
 # 1. Insert gold_prices row
 GOLD_ID=$($MYSQL -u root -p1234 -N -B gold_tracker <<EOF
 INSERT INTO gold_prices (
-    currency_id, ask, bid, high, low,
+    currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
     timestamp_local, timestamp_ny
 ) VALUES (
@@ -190,12 +191,12 @@ EOF
 
 # 2. Insert 6 unit prices
 $MYSQL -u root -p1234 gold_tracker <<EOF
-INSERT INTO gold_unit_prices (gold_id, unit_id, price) VALUES
-($GOLD_ID, 1, "$converted_ounce"),
-($GOLD_ID, 2, "$converted_gram"),
-($GOLD_ID, 3, "$converted_kilo"),
-($GOLD_ID, 4, "$converted_penny"),
-($GOLD_ID, 5, "$converted_tola"),
-($GOLD_ID, 6, "$converted_tael");
+INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
+($CURR_ID, $GOLD_ID, 1, "$converted_ounce"),
+($CURR_ID, $GOLD_ID, 2, "$converted_gram"),
+($CURR_ID, $GOLD_ID, 3, "$converted_kilo"),
+($CURR_ID, $GOLD_ID, 4, "$converted_penny"),
+($CURR_ID, $GOLD_ID, 5, "$converted_tola"),
+($CURR_ID, $GOLD_ID, 6, "$converted_tael");
 EOF
 done
