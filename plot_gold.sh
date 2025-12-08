@@ -29,3 +29,34 @@ EOF
 
     echo "Generated $outfile"
 }
+
+plot_bid() {
+    currency=$1
+    lower=$(echo "$currency" | tr 'A-Z' 'a-z')
+    outfile="${lower}_bid_price.png"
+
+    # Export DATE, TIME, BID (normalized DB)
+    mysql -u root -p1234 -D gold_tracker -N -B -e \
+    "SELECT DATE(timestamp_local), TIME(timestamp_local), bid
+     FROM gold_prices
+     WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
+     ORDER BY timestamp_local" > plotdata_bid.txt
+
+gnuplot << EOF
+set terminal png size 1920,1080
+set output "$outfile"
+set title "$currency Gold Bid Price Over Time"
+
+set xdata time
+set timefmt "%Y-%m-%d %H:%M:%S"
+set format x "%m/%d\n%H:%M"
+
+set xlabel "Time"
+set ylabel "Bid Price ($currency)"
+
+plot "plotdata_bid.txt" using (strcol(1)." ".strcol(2)):3 \
+     with linespoints lt rgb 'blue' lw 2 title 'Bid Price'
+EOF
+
+    echo "Generated $outfile"
+}
