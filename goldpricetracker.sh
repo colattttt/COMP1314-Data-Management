@@ -111,34 +111,36 @@ INSERT INTO gold_unit_prices (gold_id, unit_id, price) VALUES
 ($USD_GOLD_ID, 6, "$usd_tael");
 EOF
 
-# Extract USD → Currency Rates
+# USD → OTHER CURRENCIES
 extract_usdtoc() {
-    grep -oP "\"$1\".*?usdtoc\":\K[0-9.]+" raw.html | head -1
+    $GREP -oP "\"$1\".*?usdtoc\":\K[0-9.]+" "$RAW" | $HEAD -1
 }
 
 currencies=(AUD CAD JPY)
 
 for cur in "${currencies[@]}"; do
-    echo "================== $cur =================="
-    
+
     rate=$(extract_usdtoc "$cur")
+    [[ -z "$rate" ]] && continue
 
-    if [[ -z "$rate" ]]; then
-        echo "$cur data unavailable."
-        echo "========================================="
-        echo
-        continue
-    fi
+    # Convert main prices
+    ask=$(printf "%.2f" "$(echo "$usd_ask/$rate" | bc -l)")
+    bid=$(printf "%.2f" "$(echo "$usd_bid/$rate" | bc -l)")
+    high=$(printf "%.2f" "$(echo "$usd_high/$rate" | bc -l)")
+    low=$(printf "%.2f" "$(echo "$usd_low/$rate" | bc -l)")
+    change=$(printf "%+.2f" "$(echo "$usd_change/$rate" | bc -l)")
+    change_pct="$usd_chg_pct_fmt"
 
-    ask=$(awk "BEGIN {printf \"%.2f\", $usd_ask / $rate}")
-    bid=$(awk "BEGIN {printf \"%.2f\", $usd_bid / $rate}")
-    high=$(awk "BEGIN {printf \"%.2f\", $usd_high / $rate}")
-    low=$(awk "BEGIN {printf \"%.2f\", $usd_low / $rate}")
-    change=$(awk "BEGIN {printf \"%+.2f\", $usd_change / $rate}")
-    change_pct=$(printf "%+.2f%%" "$usd_chg_pct")
+    # Convert weight-unit prices
+    converted_ounce=$(printf "%.2f" "$(echo "$usd_ounce/$rate" | bc -l)")
+    converted_gram=$(printf "%.2f" "$(echo "$usd_gram/$rate" | bc -l)")
+    converted_kilo=$(printf "%.2f" "$(echo "$usd_kilo/$rate" | bc -l)")
+    converted_penny=$(printf "%.2f" "$(echo "$usd_penny/$rate" | bc -l)")
+    converted_tola=$(printf "%.2f" "$(echo "$usd_tola/$rate" | bc -l)")
+    converted_tael=$(printf "%.2f" "$(echo "$usd_tael/$rate" | bc -l)")
 
-    current_time=$(date '+%Y-%m-%d %H:%M:%S')
-
+    # DISPLAY CONVERTED CURRENCY
+    echo "================== $cur =================="
     echo "Currency           : $cur"
     echo "Local Timestamp    : $current_time"
     echo "Ask Price          : $ask"
@@ -150,57 +152,50 @@ for cur in "${currencies[@]}"; do
     echo "Converted From     : USD → $cur"
     echo "-----------------------------------------"
     echo "Price by Weight Unit ($cur):"
-    count=1
-    for i in "${!units[@]}"; do
-    usd_val="${prices[$i]//,/}"     # remove commas
-    converted_val=$(awk "BEGIN {printf \"%.2f\", $usd_val / $rate}")
-    printf "%d. %-12s: %s\n" "$count" "${units[$i]^}" "$converted_val"
-    ((count++))
-    done
+    echo "1. Ounce           : $converted_ounce"
+    echo "2. Gram            : $converted_gram"
+    echo "3. Kilo            : $converted_kilo"
+    echo "4. Pennyweight     : $converted_penny"
+    echo "5. Tola            : $converted_tola"
+    echo "6. Tael            : $converted_tael"
     echo "========================================="
     echo
 
-    converted_ounce=$(awk "BEGIN {printf \"%.2f\", $usd_ounce / $rate}")
-    converted_gram=$(awk "BEGIN {printf \"%.2f\", $usd_gram / $rate}")
-    converted_kilo=$(awk "BEGIN {printf \"%.2f\", $usd_kilo / $rate}")
-    converted_penny=$(awk "BEGIN {printf \"%.2f\", $usd_penny / $rate}")
-    converted_tola=$(awk "BEGIN {printf \"%.2f\", $usd_tola / $rate}")
-    converted_tael=$(awk "BEGIN {printf \"%.2f\", $usd_tael / $rate}")
+case "$cur" in
+  AUD) CURR_ID=2 ;;
+  CAD) CURR_ID=3 ;;
+  JPY) CURR_ID=4 ;;
+esac
 
-mysql -u root -p1234 gold_tracker <<EOF
+# 1. Insert gold_prices row
+GOLD_ID=$($MYSQL -u root -p1234 -N -B gold_tracker <<EOF
 INSERT INTO gold_prices (
-    currency, ask, bid, high, low,
+    currency_id, ask, bid, high, low,
     change_value, change_percent,
-    timestamp_local, timestamp_ny,
-    ounce, gram, kilo, pennyweight, tola, tael
+    timestamp_local, timestamp_ny
 ) VALUES (
-    "$cur",
-    "$ask", "$bid", "$high", "$low",
-    "$change", "$change_pct",
-    "$current_time", "$nyt_time",
-    "$converted_ounce", "$converted_gram", "$converted_kilo",
-    "$converted_penny", "$converted_tola", "$converted_tael"
+    $CURR_ID,
+    "$ask",
+    "$bid",
+    "$high",
+    "$low",
+    "$change",
+    "$change_pct",
+    "$current_time",
+    "$nyt_time"
 );
+SELECT LAST_INSERT_ID();
+EOF
+)
+
+# 2. Insert 6 unit prices
+$MYSQL -u root -p1234 gold_tracker <<EOF
+INSERT INTO gold_unit_prices (gold_id, unit_id, price) VALUES
+($GOLD_ID, 1, "$converted_ounce"),
+($GOLD_ID, 2, "$converted_gram"),
+($GOLD_ID, 3, "$converted_kilo"),
+($GOLD_ID, 4, "$converted_penny"),
+($GOLD_ID, 5, "$converted_tola"),
+($GOLD_ID, 6, "$converted_tael");
 EOF
 done
-
-REPO="/mnt/c/Users/pohsh/GitHub/COMP1314-Data-Management"
-TARGET="$REPO/raw.html"
-
-echo "Updating to GitHub repository..."
-
-# Copy raw.html into your Git repo
-cp raw.html "$TARGET"
-
-# Go to repo
-cd "$REPO"
-
-# Add & commit
-git add raw.html
-git commit -m "Updated raw.html at $(date '+%Y-%m-%d %H:%M:%S')" >/dev/null 2>&1
-
-# Push to GitHub
-git push >/dev/null 2>&1
-
-echo "GitHub update completed"
-echo
