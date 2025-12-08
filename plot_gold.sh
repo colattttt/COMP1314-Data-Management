@@ -94,3 +94,35 @@ EOF
 
     echo "Generated $outfile"
 }
+
+# Plot low price function
+plot_low() { 
+    currency=$1
+    lower=$(echo "$currency" | tr 'A-Z' 'a-z')
+    outfile="${lower}_low_price.png"
+
+    # Export DATE, TIME, LOW PRICE
+    mysql -u root -p1234 -D gold_tracker -N -B -e \
+    "SELECT DATE(timestamp_local), TIME(timestamp_local), low_price
+     FROM gold_tracker.gold_prices 
+     WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
+     ORDER BY timestamp_local" > plotdata_low.txt
+
+gnuplot << EOF
+set terminal png size 1920,1080
+set output "$outfile"
+set title "$currency Gold Low Price Over Time"
+
+set xdata time
+set timefmt "%Y-%m-%d %H:%M:%S"
+set format x "%m/%d\n%H:%M"
+
+set xlabel "Time"
+set ylabel "Low Price ($currency)"
+
+plot "plotdata_low.txt" using (strcol(1)." ".strcol(2)):3 \
+     with linespoints lt rgb 'red' lw 2 title 'Low Price'
+EOF
+
+    echo "Generated $outfile"
+}
