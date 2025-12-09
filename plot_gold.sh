@@ -1,10 +1,13 @@
 #!/bin/bash
 
+outdir="plot_images"
+mkdir -p "$outdir"
+
 # Plot ask price function
 plot_ask() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
-    outfile="${lower}_ask_price.png"
+    outfile="$outdir/${lower}_ask_price.png"
 
     mysql -u root -p1234 -D gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), ask_price
@@ -37,7 +40,7 @@ EOF
 plot_bid() {
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
-    outfile="${lower}_bid_price.png"
+    outfile="$outdir/${lower}_bid_price.png"
 
     # Export DATE, TIME, BID (normalized DB)
     mysql -u root -p1234 -D gold_tracker -N -B -e \
@@ -71,7 +74,7 @@ EOF
 plot_high() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
-    outfile="${lower}_high_price.png"
+    outfile="$outdir/${lower}_high_price.png"
 
     # Export DATE, TIME, HIGH
     mysql -u root -p1234 -D gold_tracker -N -B -e \
@@ -105,7 +108,7 @@ EOF
 plot_low() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
-    outfile="${lower}_low_price.png"
+    outfile="$outdir/${lower}_low_price.png"
 
     # Export DATE, TIME, LOW PRICE
     mysql -u root -p1234 -D gold_tracker -N -B -e \
