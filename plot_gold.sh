@@ -138,9 +138,9 @@ elif [ "$1" = "low" ]; then
     plot_low "$2"
 else
     echo "Usage:"
-    echo "  ./plot.sh ask USD"
-    echo "  ./plot.sh bid USD"
-    echo "  ./plot.sh high USD"
-    echo "  ./plot.sh low USD"
+    echo "  ./plot_gold.sh ask USD"
+    echo "  ./plot_gold.sh bid USD"
+    echo "  ./plot_gold.sh high USD"
+    echo "  ./plot_gold.sh low USD"
     echo "Example currencies: USD, AUD, CAD, JPY"
 fi
