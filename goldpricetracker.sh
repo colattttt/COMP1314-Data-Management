@@ -28,9 +28,7 @@ $CURL -sS https://www.kitco.com/charts/gold > "$RAW"
 nyt_time=$(TZ="America/New_York" $DATE '+%b %d, %Y - %H:%M NY Time')
 current_time=$($DATE '+%Y-%m-%d %H:%M:%S')
 
-# USD SECTION
-echo "================== USD =================="
-
+# Extract USD Prices
 usd_ask=$($GREP -oP '"symbol":"AU".*?"ask":\K[0-9.]+' "$RAW" | $HEAD -1)
 usd_bid=$($GREP -oP '"symbol":"AU".*?"bid":\K[0-9.]+' "$RAW" | $HEAD -1)
 usd_high=$($GREP -oP '"symbol":"AU".*?"high":\K[0-9.]+' "$RAW" | $HEAD -1)
@@ -39,6 +37,7 @@ usd_change=$($GREP -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' "$RAW" | $HEAD -1)
 usd_chg_pct=$($GREP -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' "$RAW" | $HEAD -1)
 currency=$($GREP -oP '"currency":"\K[A-Z]+' "$RAW" | $HEAD -1)
 
+# Format extracted prices
 usd_ask_fmt=$(printf "%.2f" "$usd_ask")
 usd_bid_fmt=$(printf "%.2f" "$usd_bid")
 usd_high_fmt=$(printf "%.2f" "$usd_high")
@@ -46,6 +45,7 @@ usd_low_fmt=$(printf "%.2f" "$usd_low")
 usd_change_fmt=$(printf "%+.2f" "$usd_change")
 usd_chg_pct_fmt=$(printf "%+.2f%%" "$usd_chg_pct")
 
+# Extract weight-unit prices
 units=($($GREP -oP '(?<=capitalize">)[A-Za-z]+' "$RAW"))
 prices=($($GREP -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' "$RAW"))
 
