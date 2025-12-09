@@ -24,6 +24,8 @@ set format x "%m/%d\n%H:%M"
 set xlabel "Time"
 set ylabel "Ask Price ($currency)"
 
+set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
+
 plot "plotdata_ask.txt" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'purple' lw 2 title 'Ask Price'
 EOF
@@ -55,6 +57,8 @@ set format x "%m/%d\n%H:%M"
 
 set xlabel "Time"
 set ylabel "Bid Price ($currency)"
+
+set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
 plot "plotdata_bid.txt" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'blue' lw 2 title 'Bid Price'
@@ -88,6 +92,8 @@ set format x "%m/%d\n%H:%M"
 set xlabel "Time"
 set ylabel "High Price ($currency)"
 
+set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
+
 plot "plotdata_high.txt" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'orange' lw 2 title 'High Price'
 EOF
@@ -119,6 +125,8 @@ set format x "%m/%d\n%H:%M"
 
 set xlabel "Time"
 set ylabel "Low Price ($currency)"
+
+set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
 plot "plotdata_low.txt" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'red' lw 2 title 'Low Price'
