@@ -2,16 +2,16 @@
 
 cd "$(dirname "$0")"
 
-CURL=/usr/bin/curl
-GREP=/usr/bin/grep
-AWK=/usr/bin/awk
-MYSQL=/usr/bin/mysql
-DATE=/usr/bin/date
-SLEEP=/bin/sleep
-HEAD=/usr/bin/head
+curl=/usr/bin/curl
+grep=/usr/bin/grep
+awk=/usr/bin/awk
+mysql=/usr/bin/mysql
+date=/usr/bin/date
+sleep=/bin/sleep
+head=/usr/bin/head
 
-RAW="./raw.html"
-LOG="./gold.log"
+raw="./raw.html"
+log="./gold.log"
 
 # Progress Bar
 echo -n "Fetching live data "
@@ -23,19 +23,19 @@ echo -e "  Done ✓"
 echo
 
 # Fetch HTML
-$CURL -sS https://www.kitco.com/charts/gold > "$RAW"
+$curl -sS https://www.kitco.com/charts/gold > "$raw"
 
-nyt_time=$(TZ="America/New_York" $DATE '+%b %d, %Y - %H:%M NY Time')
-current_time=$($DATE '+%Y-%m-%d %H:%M:%S')
+nyt_time=$(TZ="America/New_York" $date '+%b %d, %Y - %H:%M NY Time')
+current_time=$($date '+%Y-%m-%d %H:%M:%S')
 
 # Extract USD Prices
-usd_ask=$($GREP -oP '"symbol":"AU".*?"ask":\K[0-9.]+' "$RAW" | $HEAD -1)
-usd_bid=$($GREP -oP '"symbol":"AU".*?"bid":\K[0-9.]+' "$RAW" | $HEAD -1)
-usd_high=$($GREP -oP '"symbol":"AU".*?"high":\K[0-9.]+' "$RAW" | $HEAD -1)
-usd_low=$($GREP -oP '"symbol":"AU".*?"low":\K[0-9.]+' "$RAW" | $HEAD -1)
-usd_change=$($GREP -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' "$RAW" | $HEAD -1)
-usd_chg_pct=$($GREP -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' "$RAW" | $HEAD -1)
-currency=$($GREP -oP '"currency":"\K[A-Z]+' "$RAW" | $HEAD -1)
+usd_ask=$($grep -oP '"symbol":"AU".*?"ask":\K[0-9.]+' "$raw" | $head -1)
+usd_bid=$($grep -oP '"symbol":"AU".*?"bid":\K[0-9.]+' "$raw" | $head -1)
+usd_high=$($grep -oP '"symbol":"AU".*?"high":\K[0-9.]+' "$raw" | $head -1)
+usd_low=$($grep -oP '"symbol":"AU".*?"low":\K[0-9.]+' "$raw" | $head -1)
+usd_change=$($grep -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' "$raw" | $head -1)
+usd_chg_pct=$($grep -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' "$raw" | $head -1)
+currency=$($grep -oP '"currency":"\K[A-Z]+' "$raw" | $head -1)
 
 # Format extracted prices
 usd_ask_fmt=$(printf "%.2f" "$usd_ask")
@@ -46,8 +46,8 @@ usd_change_fmt=$(printf "%+.2f" "$usd_change")
 usd_chg_pct_fmt=$(printf "%+.2f%%" "$usd_chg_pct")
 
 # Extract weight-unit prices
-units=($($GREP -oP '(?<=capitalize">)[A-Za-z]+' "$RAW"))
-prices=($($GREP -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' "$RAW"))
+units=($($grep -oP '(?<=capitalize">)[A-Za-z]+' "$raw"))
+prices=($($grep -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' "$raw"))
 
 usd_ounce="${prices[0]//,/}"
 usd_gram="${prices[1]//,/}"
@@ -81,7 +81,7 @@ echo "6. Tael            : $usd_tael"
 echo "========================================="
 echo
 
-USD_GOLD_ID=$($MYSQL -u root -p1234 -N -B gold_tracker <<EOF
+usd_gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF
 INSERT INTO gold_prices (
     currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
@@ -102,19 +102,19 @@ EOF
 )
 
 usd_currency_id=1   # USD
-$MYSQL -u root -p1234 gold_tracker <<EOF
+$mysql -u root -p1234 gold_tracker <<EOF
 INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
-($usd_currency_id, $USD_GOLD_ID, 1, "$usd_ounce"),
-($usd_currency_id, $USD_GOLD_ID, 2, "$usd_gram"),
-($usd_currency_id, $USD_GOLD_ID, 3, "$usd_kilo"),
-($usd_currency_id, $USD_GOLD_ID, 4, "$usd_penny"),
-($usd_currency_id, $USD_GOLD_ID, 5, "$usd_tola"),
-($usd_currency_id, $USD_GOLD_ID, 6, "$usd_tael");
+($usd_currency_id, $usd_gold_id, 1, "$usd_ounce"),
+($usd_currency_id, $usd_gold_id, 2, "$usd_gram"),
+($usd_currency_id, $usd_gold_id, 3, "$usd_kilo"),
+($usd_currency_id, $usd_gold_id, 4, "$usd_penny"),
+($usd_currency_id, $usd_gold_id, 5, "$usd_tola"),
+($usd_currency_id, $usd_gold_id, 6, "$usd_tael");
 EOF
 
 # USD → OTHER CURRENCIES
 extract_usdtoc() {
-    $GREP -oP "\"$1\".*?usdtoc\":\K[0-9.]+" "$RAW" | $HEAD -1
+    $grep -oP "\"$1\".*?usdtoc\":\K[0-9.]+" "$raw" | $head -1
 }
 
 currencies=(AUD CAD JPY)
@@ -163,19 +163,19 @@ for cur in "${currencies[@]}"; do
     echo
 
 case "$cur" in
-  AUD) CURR_ID=2 ;;
-  CAD) CURR_ID=3 ;;
-  JPY) CURR_ID=4 ;;
+  AUD) curr_id=2 ;;
+  CAD) curr_id=3 ;;
+  JPY) curr_id=4 ;;
 esac
 
 # 1. Insert gold_prices row
-GOLD_ID=$($MYSQL -u root -p1234 -N -B gold_tracker <<EOF
+gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF
 INSERT INTO gold_prices (
     currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
     timestamp_local, timestamp_ny
 ) VALUES (
-    $CURR_ID,
+    $curr_id,
     "$ask",
     "$bid",
     "$high",
@@ -190,13 +190,13 @@ EOF
 )
 
 # 2. Insert 6 unit prices
-$MYSQL -u root -p1234 gold_tracker <<EOF
+$mysql -u root -p1234 gold_tracker <<EOF
 INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
-($CURR_ID, $GOLD_ID, 1, "$converted_ounce"),
-($CURR_ID, $GOLD_ID, 2, "$converted_gram"),
-($CURR_ID, $GOLD_ID, 3, "$converted_kilo"),
-($CURR_ID, $GOLD_ID, 4, "$converted_penny"),
-($CURR_ID, $GOLD_ID, 5, "$converted_tola"),
-($CURR_ID, $GOLD_ID, 6, "$converted_tael");
+($curr_id, $gold_id, 1, "$converted_ounce"),
+($curr_id, $gold_id, 2, "$converted_gram"),
+($curr_id, $gold_id, 3, "$converted_kilo"),
+($curr_id, $gold_id, 4, "$converted_penny"),
+($curr_id, $gold_id, 5, "$converted_tola"),
+($curr_id, $gold_id, 6, "$converted_tael");
 EOF
 done
