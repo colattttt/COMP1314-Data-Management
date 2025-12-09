@@ -3,17 +3,21 @@
 outdir="plot_images"
 mkdir -p "$outdir"
 
+datadir="plot_data"
+mkdir -p "$datadir"
+
 # Plot ask price function
 plot_ask() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_ask_price.png"
+    datafile="$datadir/plotdata_ask.txt"
 
     mysql -u root -p1234 -D gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), ask_price
      FROM gold_prices 
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
-     ORDER BY timestamp_local" > plotdata_ask.txt
+     ORDER BY timestamp_local" > "$datafile"
 
 gnuplot << EOF
 set terminal png size 1920,1080
@@ -29,7 +33,7 @@ set ylabel "Ask Price ($currency)"
 
 set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
-plot "plotdata_ask.txt" using (strcol(1)." ".strcol(2)):3 \
+plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'purple' lw 2 title 'Ask Price'
 EOF
 
@@ -41,13 +45,14 @@ plot_bid() {
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_bid_price.png"
+    datafile="$datadir/plotdata_bid.txt"
 
     # Export DATE, TIME, BID (normalized DB)
     mysql -u root -p1234 -D gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), bid_price
      FROM gold_prices
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
-     ORDER BY timestamp_local" > plotdata_bid.txt
+     ORDER BY timestamp_local" > "$datafile"
 
 gnuplot << EOF
 set terminal png size 1920,1080
@@ -63,7 +68,7 @@ set ylabel "Bid Price ($currency)"
 
 set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
-plot "plotdata_bid.txt" using (strcol(1)." ".strcol(2)):3 \
+plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'blue' lw 2 title 'Bid Price'
 EOF
 
@@ -75,13 +80,14 @@ plot_high() {
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_high_price.png"
+    datafile="$datadir/plotdata_high.txt"
 
     # Export DATE, TIME, HIGH
     mysql -u root -p1234 -D gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), high_price
      FROM gold_prices 
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
-     ORDER BY timestamp_local" > plotdata_high.txt
+     ORDER BY timestamp_local" > "$datafile"
 
 gnuplot << EOF
 set terminal png size 1920,1080
@@ -97,7 +103,7 @@ set ylabel "High Price ($currency)"
 
 set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
-plot "plotdata_high.txt" using (strcol(1)." ".strcol(2)):3 \
+plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'orange' lw 2 title 'High Price'
 EOF
 
@@ -109,13 +115,14 @@ plot_low() {
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_low_price.png"
+    datafile="$datadir/plotdata_low.txt"
 
     # Export DATE, TIME, LOW PRICE
     mysql -u root -p1234 -D gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), low_price
      FROM gold_tracker.gold_prices 
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
-     ORDER BY timestamp_local" > plotdata_low.txt
+     ORDER BY timestamp_local" > "$datafile"
 
 gnuplot << EOF
 set terminal png size 1920,1080
@@ -131,7 +138,7 @@ set ylabel "Low Price ($currency)"
 
 set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
-plot "plotdata_low.txt" using (strcol(1)." ".strcol(2)):3 \
+plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'red' lw 2 title 'Low Price'
 EOF
 
