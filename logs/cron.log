@@ -844,3 +844,285 @@ Price by Weight Unit (JPY):
 
 mysql: [Warning] Using a password on the command line interface can be insecure.
 mysql: [Warning] Using a password on the command line interface can be insecure.
+Fetching live data ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮  Done ✓
+
+============ LIVE GOLD PRICE ============
+Last Updated: Dec 09, 2025 - 08:00 NY Time
+=========================================
+
+================== USD ==================
+Currency           : USD
+Local Timestamp    : 2025-12-09 21:00:04
+Ask Price          : 4205.00
+Bid Price          : 4203.00
+Day High           : 4213.70
+Day Low            : 4169.30
+Change             : +13.40
+Change Percentage  : +0.32%
+-----------------------------------------
+
+Price by Weight Unit:
+1. Ounce           : 4203.00
+2. Gram            : 135.13
+3. Kilo            : 135131.66
+4. Pennyweight     : 210.15
+5. Tola            : 1576.13
+6. Tael            : 5107.81
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== AUD ==================
+Currency           : AUD
+Local Timestamp    : 2025-12-09 21:00:04
+Ask Price          : 6335.88
+Bid Price          : 6332.87
+Day High           : 6348.99
+Day Low            : 6282.09
+Change             : +20.19
+Change Percentage  : +0.32%
+Converted From     : USD → AUD
+-----------------------------------------
+Price by Weight Unit (AUD):
+1. Ounce           : 6332.87
+2. Gram            : 203.61
+3. Kilo            : 203609.63
+4. Pennyweight     : 316.64
+5. Tola            : 2374.83
+6. Tael            : 7696.19
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== CAD ==================
+Currency           : CAD
+Local Timestamp    : 2025-12-09 21:00:04
+Ask Price          : 5823.29
+Bid Price          : 5820.52
+Day High           : 5835.34
+Day Low            : 5773.86
+Change             : +18.56
+Change Percentage  : +0.32%
+Converted From     : USD → CAD
+-----------------------------------------
+Price by Weight Unit (CAD):
+1. Ounce           : 5820.52
+2. Gram            : 187.13
+3. Kilo            : 187137.08
+4. Pennyweight     : 291.03
+5. Tola            : 2182.70
+6. Tael            : 7073.55
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== JPY ==================
+Currency           : JPY
+Local Timestamp    : 2025-12-09 21:00:04
+Ask Price          : 657468.57
+Bid Price          : 657155.86
+Day High           : 658828.85
+Day Low            : 651886.73
+Change             : +2095.14
+Change Percentage  : +0.32%
+Converted From     : USD → JPY
+-----------------------------------------
+Price by Weight Unit (JPY):
+1. Ounce           : 657155.86
+2. Gram            : 21128.12
+3. Kilo            : 21128375.57
+4. Pennyweight     : 32857.79
+5. Tola            : 246434.23
+6. Tael            : 798626.52
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Fetching live data ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮  Done ✓
+
+============ LIVE GOLD PRICE ============
+Last Updated: Dec 09, 2025 - 09:00 NY Time
+=========================================
+
+================== USD ==================
+Currency           : USD
+Local Timestamp    : 2025-12-09 22:00:05
+Ask Price          : 4203.40
+Bid Price          : 4201.40
+Day High           : 4213.70
+Day Low            : 4169.30
+Change             : +11.80
+Change Percentage  : +0.28%
+-----------------------------------------
+
+Price by Weight Unit:
+1. Ounce           : 4201.40
+2. Gram            : 135.08
+3. Kilo            : 135080.22
+4. Pennyweight     : 210.07
+5. Tola            : 1575.53
+6. Tael            : 5105.87
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== AUD ==================
+Currency           : AUD
+Local Timestamp    : 2025-12-09 22:00:05
+Ask Price          : 6332.21
+Bid Price          : 6329.20
+Day High           : 6347.73
+Day Low            : 6280.84
+Change             : +17.78
+Change Percentage  : +0.28%
+Converted From     : USD → AUD
+-----------------------------------------
+Price by Weight Unit (AUD):
+1. Ounce           : 6329.20
+2. Gram            : 203.49
+3. Kilo            : 203491.60
+4. Pennyweight     : 316.46
+5. Tola            : 2373.46
+6. Tael            : 7691.74
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== CAD ==================
+Currency           : CAD
+Local Timestamp    : 2025-12-09 22:00:05
+Ask Price          : 5818.56
+Bid Price          : 5815.79
+Day High           : 5832.81
+Day Low            : 5771.35
+Change             : +16.33
+Change Percentage  : +0.28%
+Converted From     : USD → CAD
+-----------------------------------------
+Price by Weight Unit (CAD):
+1. Ounce           : 5815.79
+2. Gram            : 186.98
+3. Kilo            : 186984.79
+4. Pennyweight     : 290.79
+5. Tola            : 2180.93
+6. Tael            : 7067.80
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== JPY ==================
+Currency           : JPY
+Local Timestamp    : 2025-12-09 22:00:05
+Ask Price          : 657180.57
+Bid Price          : 656867.88
+Day High           : 658790.93
+Day Low            : 651849.21
+Change             : +1844.87
+Change Percentage  : +0.28%
+Converted From     : USD → JPY
+-----------------------------------------
+Price by Weight Unit (JPY):
+1. Ounce           : 656867.88
+2. Gram            : 21119.08
+3. Kilo            : 21119117.00
+4. Pennyweight     : 32843.39
+5. Tola            : 246326.24
+6. Tael            : 798277.25
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Fetching live data ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮  Done ✓
+
+============ LIVE GOLD PRICE ============
+Last Updated: Dec 09, 2025 - 10:00 NY Time
+=========================================
+
+================== USD ==================
+Currency           : USD
+Local Timestamp    : 2025-12-09 23:00:05
+Ask Price          : 4206.50
+Bid Price          : 4204.50
+Day High           : 4213.70
+Day Low            : 4169.30
+Change             : +14.90
+Change Percentage  : +0.36%
+-----------------------------------------
+
+Price by Weight Unit:
+1. Ounce           : 4204.50
+2. Gram            : 135.18
+3. Kilo            : 135179.89
+4. Pennyweight     : 210.23
+5. Tola            : 1576.69
+6. Tael            : 5109.64
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== AUD ==================
+Currency           : AUD
+Local Timestamp    : 2025-12-09 23:00:05
+Ask Price          : 6328.89
+Bid Price          : 6325.88
+Day High           : 6339.72
+Day Low            : 6272.92
+Change             : +22.42
+Change Percentage  : +0.36%
+Converted From     : USD → AUD
+-----------------------------------------
+Price by Weight Unit (AUD):
+1. Ounce           : 6325.88
+2. Gram            : 203.39
+3. Kilo            : 203384.90
+4. Pennyweight     : 316.30
+5. Tola            : 2372.21
+6. Tael            : 7687.71
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== CAD ==================
+Currency           : CAD
+Local Timestamp    : 2025-12-09 23:00:05
+Ask Price          : 5816.96
+Bid Price          : 5814.19
+Day High           : 5826.92
+Day Low            : 5765.52
+Change             : +20.60
+Change Percentage  : +0.36%
+Converted From     : USD → CAD
+-----------------------------------------
+Price by Weight Unit (CAD):
+1. Ounce           : 5814.19
+2. Gram            : 186.93
+3. Kilo            : 186933.51
+4. Pennyweight     : 290.72
+5. Tola            : 2180.33
+6. Tael            : 7065.87
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== JPY ==================
+Currency           : JPY
+Local Timestamp    : 2025-12-09 23:00:05
+Ask Price          : 658005.97
+Bid Price          : 657693.12
+Day High           : 659132.24
+Day Low            : 652186.92
+Change             : +2330.75
+Change Percentage  : +0.36%
+Converted From     : USD → JPY
+-----------------------------------------
+Price by Weight Unit (JPY):
+1. Ounce           : 657693.12
+2. Gram            : 21145.67
+3. Kilo            : 21145649.47
+4. Pennyweight     : 32885.44
+5. Tola            : 246635.31
+6. Tael            : 799280.55
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
