@@ -13,7 +13,7 @@ plot_ask() {
     outfile="$outdir/${lower}_ask_price.png"
     datafile="$datadir/plotdata_ask.txt"
 
-    mysql -u root -p1234 -D gold_tracker -N -B -e \
+    mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), ask_price
      FROM gold_prices 
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
@@ -48,7 +48,7 @@ plot_bid() {
     datafile="$datadir/plotdata_bid.txt"
 
     # Export DATE, TIME, BID (normalized DB)
-    mysql -u root -p1234 -D gold_tracker -N -B -e \
+    mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), bid_price
      FROM gold_prices
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
@@ -83,7 +83,7 @@ plot_high() {
     datafile="$datadir/plotdata_high.txt"
 
     # Export DATE, TIME, HIGH
-    mysql -u root -p1234 -D gold_tracker -N -B -e \
+    mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), high_price
      FROM gold_prices 
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')
@@ -118,7 +118,7 @@ plot_low() {
     datafile="$datadir/plotdata_low.txt"
 
     # Export DATE, TIME, LOW PRICE
-    mysql -u root -p1234 -D gold_tracker -N -B -e \
+    mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), low_price
      FROM gold_tracker.gold_prices 
      WHERE currency_id = (SELECT currency_id FROM currencies WHERE currency_code='$currency')

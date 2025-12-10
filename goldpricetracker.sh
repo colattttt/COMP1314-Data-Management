@@ -114,7 +114,7 @@ echo "6. Tael            : $usd_tael"
 echo "========================================="
 echo
 
-usd_gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF 2>>"$error_log"
+usd_gold_id=$($mysql -N -B gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_prices (
     currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
@@ -140,7 +140,7 @@ if [[ -z "$usd_gold_id" ]]; then
 fi
 
 usd_currency_id=1   # USD
-$mysql -u root -p1234 gold_tracker <<EOF 2>>"$error_log"
+$mysql gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
 ($usd_currency_id, $usd_gold_id, 1, "$usd_ounce"),
 ($usd_currency_id, $usd_gold_id, 2, "$usd_gram"),
@@ -210,7 +210,7 @@ case "$cur" in
 esac
 
 # 1. Insert gold_prices row
-gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF 2>>"$error_log"
+gold_id=$($mysql -N -B gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_prices (
     currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
@@ -236,7 +236,7 @@ if [[ -z "$gold_id" ]]; then
     fi
 
 # 2. Insert 6 unit prices
-$mysql -u root -p1234 gold_tracker <<EOF 2>>"$error_log"
+$mysql gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
 ($curr_id, $gold_id, 1, "$converted_ounce"),
 ($curr_id, $gold_id, 2, "$converted_gram"),
