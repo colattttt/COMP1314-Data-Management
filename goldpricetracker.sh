@@ -11,7 +11,24 @@ sleep=/bin/sleep
 head=/usr/bin/head
 
 raw="./raw.html"
-log="./gold.log"
+error_log="./logs/goldtracker_error.log"
+
+log_error() {
+    local msg="[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: $1"
+    echo "$msg" >> "$error_log"
+}
+
+# Fetch HTML with ERROR HANDLING
+if ! curl -sS "https://www.kitco.com/charts/gold" -o "$raw"; then
+    log_error "Failed to fetch Kitco HTML – network down or website unreachable."
+    exit 1
+fi
+
+# Check if HTML file is empty
+if [[ ! -s "$raw" ]]; then
+    log_error "Downloaded HTML is empty — possible website block or downtime."
+    exit 1
+fi
 
 # Progress Bar
 echo -n "Fetching live data "
@@ -37,6 +54,17 @@ usd_change=$($grep -oP '"symbol":"AU".*?"change":\K-?[0-9.]+' "$raw" | $head -1)
 usd_chg_pct=$($grep -oP '"symbol":"AU".*?"changePercentage":\K-?[0-9.]+' "$raw" | $head -1)
 currency=$($grep -oP '"currency":"\K[A-Z]+' "$raw" | $head -1)
 
+# Validate USD values
+if [[ -z "$usd_ask" || -z "$usd_bid" || -z "$usd_high" || -z "$usd_low" ]]; then
+    log_error "Missing essential USD values — Kitco HTML structure may have changed."
+    exit 1
+fi
+
+if [[ -z "$usd_change" || -z "$usd_chg_pct" ]]; then
+    log_error "Missing change / changePercentage — structure changed."
+    exit 1
+fi
+
 # Format extracted prices
 usd_ask_fmt=$(printf "%.2f" "$usd_ask")
 usd_bid_fmt=$(printf "%.2f" "$usd_bid")
@@ -48,6 +76,11 @@ usd_chg_pct_fmt=$(printf "%+.2f%%" "$usd_chg_pct")
 # Extract weight-unit prices
 units=($($grep -oP '(?<=capitalize">)[A-Za-z]+' "$raw"))
 prices=($($grep -oP '(?<=justify-self-end">)[0-9,]+\.[0-9]+' "$raw"))
+
+if [[ ${#prices[@]} -ne 6 ]]; then
+    log_error "Weight unit extraction failed — expected 6 items, got ${#prices[@]}."
+    exit 1
+fi
 
 usd_ounce="${prices[0]//,/}"
 usd_gram="${prices[1]//,/}"
@@ -81,7 +114,7 @@ echo "6. Tael            : $usd_tael"
 echo "========================================="
 echo
 
-usd_gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF
+usd_gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_prices (
     currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
@@ -101,8 +134,13 @@ SELECT LAST_INSERT_ID();
 EOF
 )
 
+if [[ -z "$usd_gold_id" ]]; then
+    log_error "MySQL Insert Failed: Could not store USD gold_prices row."
+    exit 1
+fi
+
 usd_currency_id=1   # USD
-$mysql -u root -p1234 gold_tracker <<EOF
+$mysql -u root -p1234 gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
 ($usd_currency_id, $usd_gold_id, 1, "$usd_ounce"),
 ($usd_currency_id, $usd_gold_id, 2, "$usd_gram"),
@@ -122,7 +160,10 @@ currencies=(AUD CAD JPY)
 for cur in "${currencies[@]}"; do
 
     rate=$(extract_usdtoc "$cur")
-    [[ -z "$rate" ]] && continue
+    if [[ -z "$rate" ]]; then
+        log_error "Missing exchange rate for $cur"
+        continue
+    fi
 
     # Convert main prices
     ask=$(printf "%.2f" "$(echo "$usd_ask/$rate" | bc -l)")
@@ -169,7 +210,7 @@ case "$cur" in
 esac
 
 # 1. Insert gold_prices row
-gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF
+gold_id=$($mysql -u root -p1234 -N -B gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_prices (
     currency_id, ask_price, bid_price, high_price, low_price,
     change_value, change_percent,
@@ -189,8 +230,13 @@ SELECT LAST_INSERT_ID();
 EOF
 )
 
+if [[ -z "$gold_id" ]]; then
+        log_error "MySQL Insert Failed: Could not insert $cur gold_prices"
+        continue
+    fi
+
 # 2. Insert 6 unit prices
-$mysql -u root -p1234 gold_tracker <<EOF
+$mysql -u root -p1234 gold_tracker <<EOF 2>>"$error_log"
 INSERT INTO gold_unit_prices (currency_id, gold_id, unit_id, price) VALUES
 ($curr_id, $gold_id, 1, "$converted_ounce"),
 ($curr_id, $gold_id, 2, "$converted_gram"),
