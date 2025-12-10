@@ -37,7 +37,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'purple' lw 2 title 'Ask Price'
 EOF
 
-    echo "Generated $outfile"
+    filename=$(basename "$outfile")
+    echo "Plot saved as: $filename"
 }
 
 # Plot bid price function
@@ -72,7 +73,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'blue' lw 2 title 'Bid Price'
 EOF
 
-    echo "Generated $outfile"
+    filename=$(basename "$outfile")
+    echo "Plot saved as: $filename"
 }
 
 # Plot high price function
@@ -107,7 +109,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'orange' lw 2 title 'High Price'
 EOF
 
-    echo "Generated $outfile"
+    filename=$(basename "$outfile")
+    echo "Plot saved as: $filename"
 }
 
 # Plot low price function
@@ -142,7 +145,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
      with linespoints lt rgb 'red' lw 2 title 'Low Price'
 EOF
 
-    echo "Generated $outfile"
+    filename=$(basename "$outfile")
+    echo "Plot saved as: $filename"
 }
 
 # Command handler
@@ -155,10 +159,18 @@ elif [ "$1" = "high" ]; then
 elif [ "$1" = "low" ]; then
     plot_low "$2"
 else
-    echo "Usage:"
+    echo "How to Use This Script:"
+    echo "  ./plot_gold.sh <type> <currency>"
+    echo
+    echo "Price Types You Can Choose:"
+    echo "  ask      Plot Ask Price over time"
+    echo "  bid      Plot Bid Price over time"
+    echo "  high     Plot High Price over time"
+    echo "  low      Plot Low Price over time"
+    echo
+    echo "Example Command:"
     echo "  ./plot_gold.sh ask USD"
-    echo "  ./plot_gold.sh bid USD"
-    echo "  ./plot_gold.sh high USD"
-    echo "  ./plot_gold.sh low USD"
-    echo "Example currencies: USD, AUD, CAD, JPY"
+    echo
+    echo "Supported currencies:"
+    echo "  USD, AUD, CAD, JPY"
 fi
