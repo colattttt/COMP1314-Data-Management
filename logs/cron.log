@@ -1126,3 +1126,183 @@ Price by Weight Unit (JPY):
 
 mysql: [Warning] Using a password on the command line interface can be insecure.
 mysql: [Warning] Using a password on the command line interface can be insecure.
+Fetching live data ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮  Done ✓
+
+============ LIVE GOLD PRICE ============
+Last Updated: Dec 09, 2025 - 11:00 NY Time
+=========================================
+
+================== USD ==================
+Currency           : USD
+Local Timestamp    : 2025-12-10 00:00:05
+Ask Price          : 4212.80
+Bid Price          : 4210.80
+Day High           : 4213.70
+Day Low            : 4169.30
+Change             : +21.20
+Change Percentage  : +0.51%
+-----------------------------------------
+
+Price by Weight Unit:
+1. Ounce           : 4210.80
+2. Gram            : 135.38
+3. Kilo            : 135382.44
+4. Pennyweight     : 210.54
+5. Tola            : 1579.05
+6. Tael            : 5117.29
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== AUD ==================
+Currency           : AUD
+Local Timestamp    : 2025-12-10 00:00:05
+Ask Price          : 6341.32
+Bid Price          : 6338.31
+Day High           : 6342.67
+Day Low            : 6275.84
+Change             : +31.91
+Change Percentage  : +0.51%
+Converted From     : USD → AUD
+-----------------------------------------
+Price by Weight Unit (AUD):
+1. Ounce           : 6338.31
+2. Gram            : 203.78
+3. Kilo            : 203784.42
+4. Pennyweight     : 316.92
+5. Tola            : 2376.87
+6. Tael            : 7702.80
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== CAD ==================
+Currency           : CAD
+Local Timestamp    : 2025-12-10 00:00:05
+Ask Price          : 5831.57
+Bid Price          : 5828.80
+Day High           : 5832.81
+Day Low            : 5771.35
+Change             : +29.35
+Change Percentage  : +0.51%
+Converted From     : USD → CAD
+-----------------------------------------
+Price by Weight Unit (CAD):
+1. Ounce           : 5828.80
+2. Gram            : 187.40
+3. Kilo            : 187403.14
+4. Pennyweight     : 291.44
+5. Tola            : 2185.80
+6. Tael            : 7083.61
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+================== JPY ==================
+Currency           : JPY
+Local Timestamp    : 2025-12-10 00:00:05
+Ask Price          : 660996.75
+Bid Price          : 660682.94
+Day High           : 661137.96
+Day Low            : 654171.51
+Change             : +3326.32
+Change Percentage  : +0.51%
+Converted From     : USD → JPY
+-----------------------------------------
+Price by Weight Unit (JPY):
+1. Ounce           : 660682.94
+2. Gram            : 21241.39
+3. Kilo            : 21241775.60
+4. Pennyweight     : 33034.15
+5. Tola            : 247756.10
+6. Tael            : 802913.04
+=========================================
+
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Fetching live data ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮  Done ✓
+
+============ LIVE GOLD PRICE ============
+Last Updated: Dec 09, 2025 - 22:00 NY Time
+=========================================
+
+================== USD ==================
+Currency           : USD
+Local Timestamp    : 2025-12-10 11:00:01
+Ask Price          : 4218.20
+Bid Price          : 4216.20
+Day High           : 4219.70
+Day Low            : 4206.10
+Change             : +9.00
+Change Percentage  : +0.21%
+-----------------------------------------
+
+Price by Weight Unit:
+1. Ounce           : 4216.20
+2. Gram            : 135.55
+3. Kilo            : 135556.06
+4. Pennyweight     : 210.81
+5. Tola            : 1581.08
+6. Tael            : 5123.86
+=========================================
+
+================== AUD ==================
+Currency           : AUD
+Local Timestamp    : 2025-12-10 11:00:01
+Ask Price          : 6357.04
+Bid Price          : 6354.02
+Day High           : 6359.30
+Day Low            : 6338.80
+Change             : +13.56
+Change Percentage  : +0.21%
+Converted From     : USD → AUD
+-----------------------------------------
+Price by Weight Unit (AUD):
+1. Ounce           : 6354.02
+2. Gram            : 204.28
+3. Kilo            : 204289.76
+4. Pennyweight     : 317.70
+5. Tola            : 2382.77
+6. Tael            : 7721.91
+=========================================
+
+================== CAD ==================
+Currency           : CAD
+Local Timestamp    : 2025-12-10 11:00:01
+Ask Price          : 5845.79
+Bid Price          : 5843.02
+Day High           : 5847.87
+Day Low            : 5829.02
+Change             : +12.47
+Change Percentage  : +0.21%
+Converted From     : USD → CAD
+-----------------------------------------
+Price by Weight Unit (CAD):
+1. Ounce           : 5843.02
+2. Gram            : 187.85
+3. Kilo            : 187860.37
+4. Pennyweight     : 292.15
+5. Tola            : 2191.14
+6. Tael            : 7100.90
+=========================================
+
+================== JPY ==================
+Currency           : JPY
+Local Timestamp    : 2025-12-10 11:00:01
+Ask Price          : 660835.87
+Bid Price          : 660522.54
+Day High           : 661070.86
+Day Low            : 658940.24
+Change             : +1409.97
+Change Percentage  : +0.21%
+Converted From     : USD → JPY
+-----------------------------------------
+Price by Weight Unit (JPY):
+1. Ounce           : 660522.54
+2. Gram            : 21235.67
+3. Kilo            : 21236619.03
+4. Pennyweight     : 33026.13
+5. Tola            : 247696.74
+6. Tael            : 802719.28
+=========================================
+
