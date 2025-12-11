@@ -38,7 +38,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
 EOF
 
     filename=$(basename "$outfile")
-    echo "Plot saved as: $filename"
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
 # Plot bid price function
@@ -74,7 +75,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
 EOF
 
     filename=$(basename "$outfile")
-    echo "Plot saved as: $filename"
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
 # Plot high price function
@@ -106,11 +108,12 @@ set ylabel "High Price ($currency)"
 set grid xtics ytics back lw 1 lc rgb "#DDDDDD"
 
 plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
-     with linespoints lt rgb 'orange' lw 2 title 'High Price'
+     with linespoints lt rgb 'green' lw 2 title 'High Price'
 EOF
 
     filename=$(basename "$outfile")
-    echo "Plot saved as: $filename"
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
 # Plot low price function
@@ -146,7 +149,8 @@ plot "$datafile" using (strcol(1)." ".strcol(2)):3 \
 EOF
 
     filename=$(basename "$outfile")
-    echo "Plot saved as: $filename"
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
 # Command handler
