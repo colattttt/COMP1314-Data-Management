@@ -6482,3 +6482,89 @@ Price by Weight Unit (JPY):
 6. Tael            : 824410.72
 =========================================
 
+Fetching live data ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮  Done ✓
+
+============ LIVE GOLD PRICE ============
+Last Updated: Dec 12, 2025 - 11:00 NY Time
+=========================================
+
+================== USD ==================
+Currency           : USD
+Local Timestamp    : 2025-12-13 00:00:06
+Ask Price          : 4293.20
+Bid Price          : 4291.20
+Day High           : 4354.30
+Day Low            : 4264.00
+Change             : +12.10
+Change Percentage  : +0.28%
+-----------------------------------------
+
+Price by Weight Unit:
+1. Ounce           : 4291.20
+2. Gram            : 137.97
+3. Kilo            : 137967.40
+4. Pennyweight     : 214.56
+5. Tola            : 1609.20
+6. Tael            : 5215.00
+=========================================
+
+================== AUD ==================
+Currency           : AUD
+Local Timestamp    : 2025-12-13 00:00:06
+Ask Price          : 6464.92
+Bid Price          : 6461.90
+Day High           : 6556.92
+Day Low            : 6420.94
+Change             : +18.22
+Change Percentage  : +0.28%
+Converted From     : USD → AUD
+-----------------------------------------
+Price by Weight Unit (AUD):
+1. Ounce           : 6461.90
+2. Gram            : 207.76
+3. Kilo            : 207758.21
+4. Pennyweight     : 323.10
+5. Tola            : 2423.21
+6. Tael            : 7853.01
+=========================================
+
+================== CAD ==================
+Currency           : CAD
+Local Timestamp    : 2025-12-13 00:00:06
+Ask Price          : 5917.10
+Bid Price          : 5914.35
+Day High           : 6001.31
+Day Low            : 5876.86
+Change             : +16.68
+Change Percentage  : +0.28%
+Converted From     : USD → CAD
+-----------------------------------------
+Price by Weight Unit (CAD):
+1. Ounce           : 5914.35
+2. Gram            : 190.16
+3. Kilo            : 190153.57
+4. Pennyweight     : 295.72
+5. Tola            : 2217.88
+6. Tael            : 7187.57
+=========================================
+
+================== JPY ==================
+Currency           : JPY
+Local Timestamp    : 2025-12-13 00:00:06
+Ask Price          : 669653.34
+Bid Price          : 669341.38
+Day High           : 679183.71
+Day Low            : 665098.72
+Change             : +1887.36
+Change Percentage  : +0.28%
+Converted From     : USD → JPY
+-----------------------------------------
+Price by Weight Unit (JPY):
+1. Ounce           : 669341.38
+2. Gram            : 21520.56
+3. Kilo            : 21520155.05
+4. Pennyweight     : 33467.07
+5. Tola            : 251003.02
+6. Tael            : 813435.70
+=========================================
+
