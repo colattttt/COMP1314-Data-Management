@@ -258,18 +258,24 @@ plot_images           Generated PNG graphs.
 <h2>8.0 Troubleshooting</h2>
 
 <ol>
-  <li>Ensure MySQL is running and the gold_tracker database exists.</li>
-  <li>Verify required tables and reference IDs are present.</li>
-  <li>Confirm mysql works in non-interactive mode (Cron).</li>
-  <li>Check goldtracker_error.log for curl or extraction failures.</li>
-  <li>Ensure grep -P is supported.</li>
-  <li>Verify gnuplot is installed and plot_data files are valid.</li>
+  <li>EEnsure that the MySQL service is running and that the gold_tracker database exists.</li>
+  <li>Verify that all required tables (currencies, units, gold_prices, gold_unit_prices) are
+    created and contain the correct reference IDs used by the scripts.</li>
+  <li>Confirm that the mysql command can run in non-interactive mode (for example, under
+    Cron) without prompting for a password. If required, configure a MySQL client option
+    file (.my.cnf).</li>
+  <li>Check the goldtracker_error.log file in the logs folder for errors such as curl download
+    failures, empty HTML files, or missing extracted values.</li>
+  <li>Ensure that grep -P is available on the system. If not, install GNU grep
+    or adjust the extraction commands.</li>
+  <li>Verify that gnuplot is installed and that the files in the plot_data folder contain valid
+    columns (DATE, TIME, and value)</li>
 </ol>
 
 <h2>9.0 Additional Notes</h2>
 
 <p>
 This coursework uses relative paths for all generated files. The script changes into its own 
-directory at runtime to ensure consistent behaviour under manual execution and Cron. The 
-raw.html file is included only as a sample snapshot and is overwritten on each run.
+directory at runtime to ensure consistent behaviour under manual execution and Cron. For best results, the project folder structure should remain unchanged so that logs, plots,
+and data files are stored in their expected locations.
 </p>
