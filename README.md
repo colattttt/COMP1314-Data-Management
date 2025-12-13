@@ -258,7 +258,7 @@ plot_images           Generated PNG graphs.
 <h2>8.0 Troubleshooting</h2>
 
 <ol>
-  <li>EEnsure that the MySQL service is running and that the gold_tracker database exists.</li>
+  <li>Ensure that the MySQL service is running and that the gold_tracker database exists.</li>
   <li>Verify that all required tables (currencies, units, gold_prices, gold_unit_prices) are
     created and contain the correct reference IDs used by the scripts.</li>
   <li>Confirm that the mysql command can run in non-interactive mode (for example, under
