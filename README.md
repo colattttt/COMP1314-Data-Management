@@ -170,8 +170,7 @@ Cron switches into the project directory to ensure that all relative paths work 
 </p>
 
 <pre>
-0 * * * * cd /mnt/c/Users/pohsh/GitHub/COMP1314-Data-Management &&
-./goldpricetracker.sh >> logs/cron.log 2>> logs/goldtracker_error.log
+0 * * * * cd /mnt/c/Users/pohsh/GitHub/COMP1314-Data-Management && ./goldpricetracker.sh >> logs/cron.log 2>> logs/goldtracker_error.log && for type in ask bid high low; do for cur in USD AUD CAD JPY; do ./plot_gold.sh $type $cur >> logs/plot.log 2>> logs/goldtracker_error.log; done; done
 </pre>
 
 <p><strong>Step 2: Logging behaviour</strong></p>
