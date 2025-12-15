@@ -275,7 +275,9 @@ plot_images           Generated PNG graphs.
 <h2>9.0 Additional Notes</h2>
 
 <p>
-This coursework uses relative paths for all generated files. The script changes into its own 
-directory at runtime to ensure consistent behaviour under manual execution and Cron. For best results, the project folder structure should remain unchanged so that logs, plots,
-and data files are stored in their expected locations.
+This coursework uses relative paths for all generated files. The script changes into its own directory at runtime to ensure consistent behaviour under manual execution and Cron. For best results, the project folder structure should remain unchanged so that logs, plots, and data files are stored in their expected locations.
+</p>
+
+<p>
+During weekends (Saturday and Sunday), the international gold market is closed and no live price updates are available. The script continues to run as scheduled and records data into the database; however, the stored prices for all currencies and price-by-weight units may remain unchanged until the market reopens.
 </p>
