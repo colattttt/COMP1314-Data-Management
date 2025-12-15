@@ -1,12 +1,13 @@
 #!/bin/bash
 
+# Output directories for plots and temporary data
 outdir="plot_images"
 mkdir -p "$outdir"
 
 datadir="plot_data"
 mkdir -p "$datadir"
 
-# Plot ask price function
+# Plots Ask Price over time for a given currency
 plot_ask() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
@@ -42,14 +43,13 @@ EOF
     echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
-# Plot bid price function
+# Plots Bid Price over time
 plot_bid() {
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_bid_price.png"
     datafile="$datadir/plotdata_bid.txt"
 
-    # Export DATE, TIME, BID (normalized DB)
     mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), bid_price
      FROM gold_prices
@@ -79,14 +79,13 @@ EOF
     echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
-# Plot high price function
+# Plots Daily High price over time
 plot_high() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_high_price.png"
     datafile="$datadir/plotdata_high.txt"
 
-    # Export DATE, TIME, HIGH
     mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), high_price
      FROM gold_prices 
@@ -116,14 +115,13 @@ EOF
     echo "[$timestamp] Generated $filename" >> logs/plot.log
 }
 
-# Plot low price function
+# Plots Daily Low price over time
 plot_low() { 
     currency=$1
     lower=$(echo "$currency" | tr 'A-Z' 'a-z')
     outfile="$outdir/${lower}_low_price.png"
     datafile="$datadir/plotdata_low.txt"
 
-    # Export DATE, TIME, LOW PRICE
     mysql gold_tracker -N -B -e \
     "SELECT DATE(timestamp_local), TIME(timestamp_local), low_price
      FROM gold_tracker.gold_prices 
@@ -154,6 +152,7 @@ EOF
 }
 
 # Command handler
+# Determines which plot function to run
 if [ "$1" = "ask" ]; then
     plot_ask "$2"
 elif [ "$1" = "bid" ]; then
